@@ -10,31 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_02_183246) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_09_151959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "favorites", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "reactor_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["reactor_id"], name: "index_favorites_on_reactor_id"
-    t.index ["user_id"], name: "index_favorites_on_user_id"
-  end
-
-  create_table "reactors", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "title"
-    t.string "description"
-    t.string "design"
-    t.string "fuel"
-    t.integer "power"
-    t.boolean "cooling_active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_reactors_on_user_id"
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -42,26 +20,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_02_183246) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "username"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "votes", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "reactor_id", null: false
-    t.boolean "positive"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["reactor_id"], name: "index_votes_on_reactor_id"
-    t.index ["user_id"], name: "index_votes_on_user_id"
-  end
-
-  add_foreign_key "favorites", "reactors"
-  add_foreign_key "favorites", "users"
-  add_foreign_key "reactors", "users"
-  add_foreign_key "votes", "reactors"
-  add_foreign_key "votes", "users"
 end
